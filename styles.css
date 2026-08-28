@@ -218,8 +218,8 @@ body.menu-open { overflow: hidden; }
 
 .hero-in {
   position: relative; z-index: 2;
-  display: grid; grid-template-columns: minmax(0, 1.22fr) minmax(0, .78fr);
-  gap: clamp(30px, 5vw, 70px); align-items: center;
+  display: grid; grid-template-columns: minmax(0, 1.06fr) minmax(0, .94fr);
+  gap: clamp(24px, 3.4vw, 48px); align-items: center;
 }
 
 .hero-h1 {
@@ -254,14 +254,16 @@ body.menu-open { overflow: hidden; }
 }
 .hero-stats dd { color: var(--dim); font-size: 13.5px; margin-top: 4px; max-width: 150px; }
 
-/* Витраж из вертикальных панелей */
+/* Витраж из вертикальных панелей.
+   Панели заходят друг на друга — так каждая шире трети колонки,
+   а вся группа по-прежнему укладывается в 100% ширины. */
 .hero-panels {
-  display: grid; grid-template-columns: repeat(3, 1fr);
-  gap: clamp(10px, 1.2vw, 16px); align-items: center;
-  transform: rotate(2.5deg);
+  display: flex; align-items: center; justify-content: center;
+  align-self: start; margin-top: 6px;
 }
 .hp {
-  position: relative; border-radius: 14px; overflow: hidden;
+  position: relative; flex: 0 0 auto; width: 35%;
+  border-radius: 14px; overflow: hidden;
   aspect-ratio: 9 / 16;
   box-shadow: 0 18px 50px rgba(0, 0, 0, .5);
   isolation: isolate;
@@ -274,11 +276,11 @@ body.menu-open { overflow: hidden; }
   transform: translateX(-120%);
   animation: panelsweep 6.5s ease-in-out infinite;
 }
-.hp-1 { transform: translateY(26px); }
+.hp-1 { z-index: 1; margin-right: -7%; transform: translateY(44px) rotate(-4deg); }
 .hp-1::after { animation-delay: .6s; }
-.hp-2 { transform: translateY(-14px); }
+.hp-2 { z-index: 3; width: 44%; transform: translateY(-18px) rotate(.5deg); }
 .hp-2::after { animation-delay: 1.5s; }
-.hp-3 { transform: translateY(38px); }
+.hp-3 { z-index: 2; margin-left: -7%; transform: translateY(52px) rotate(4deg); }
 .hp-3::after { animation-delay: 2.4s; }
 @keyframes panelsweep {
   0%, 55% { transform: translateX(-120%); }
@@ -462,6 +464,37 @@ body.menu-open { overflow: hidden; }
 }
 .us-go:hover { color: #fff; }
 
+/* Дополнительные услуги — компактная строка без фото.
+   Рекламу на них не даём, поэтому они намеренно тише основных карточек. */
+.us-extra { margin-top: clamp(20px, 2.6vw, 32px); }
+.us-extra-h {
+  font-family: var(--f-disp); font-weight: 700; font-size: 12.5px;
+  letter-spacing: .14em; text-transform: uppercase; color: var(--dim);
+  margin-bottom: 14px;
+}
+.us-extra-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: clamp(14px, 1.8vw, 24px);
+}
+.ux-card {
+  display: flex; flex-direction: column; gap: 8px;
+  padding: 20px 22px 20px;
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+  scroll-margin-top: calc(var(--hdr-h) + 10px);
+  transition: transform .35s, border-color .35s;
+}
+.ux-card:hover { transform: translateY(-4px); border-color: rgba(167, 139, 250, .45); }
+.ux-ico {
+  display: flex; align-items: center; justify-content: center;
+  width: 40px; height: 40px; margin-bottom: 4px;
+  border-radius: 12px; color: var(--neon-a);
+  background: rgba(167, 139, 250, .12); border: 1px solid rgba(167, 139, 250, .25);
+}
+.ux-ico svg { width: 21px; height: 21px; }
+.ux-card h3 { font-family: var(--f-disp); font-weight: 700; font-size: clamp(15.5px, 1.5vw, 18px); line-height: 1.3; }
+.ux-card p { color: var(--dim); font-size: 13.5px; line-height: 1.55; }
+.ux-card .us-foot { margin-top: auto; padding-top: 12px; }
+
 /* ═══════════ ОКРАС ПОД ТОЛЩИНОМЕР ═══════════ */
 .okras { padding: clamp(70px, 10vw, 130px) 0; position: relative; overflow: hidden; }
 .okras-hex { opacity: .35; -webkit-mask-image: radial-gradient(60% 55% at 25% 40%, #000 10%, transparent 75%); mask-image: radial-gradient(60% 55% at 25% 40%, #000 10%, transparent 75%); }
@@ -528,8 +561,10 @@ body.menu-open { overflow: hidden; }
 .ok-points span { color: var(--dim); font-size: 13.5px; line-height: 1.55; }
 .ok-cta { margin-top: 26px; }
 
-.ok-photo { position: relative; border-radius: var(--radius); overflow: hidden; align-self: stretch; }
-.ok-photo video { width: 100%; height: 100%; min-height: 420px; object-fit: cover; }
+/* Вертикальное видео 9:16 нельзя растягивать по высоте текстовой колонки —
+   иначе на десктопе оно вырастает до ~820px. Кадрируем в 4:5 с потолком по высоте. */
+.ok-photo { position: relative; border-radius: var(--radius); overflow: hidden; align-self: center; }
+.ok-photo video { width: 100%; height: auto; aspect-ratio: 4 / 5; max-height: 540px; object-fit: cover; }
 .ok-photo figcaption {
   position: absolute; left: 16px; bottom: 14px;
   font-size: 12.5px; color: rgba(242, 239, 250, .85);
@@ -683,18 +718,19 @@ body.menu-open { overflow: hidden; }
 @media (max-width: 960px) {
   .hero { padding-bottom: 70px; }
   .hero-in { grid-template-columns: 1fr; gap: 40px; }
-  .hero-panels { transform: none; margin: 0 auto; width: 100%; max-width: 560px; }
-  .hp-1 { transform: translateY(14px); }
-  .hp-3 { transform: translateY(20px); }
+  .hero-panels { align-self: auto; margin: 0 auto; width: 100%; max-width: 620px; }
+  .hp-1 { transform: translateY(14px) rotate(-2.5deg); }
+  .hp-3 { transform: translateY(20px) rotate(2.5deg); }
   .hero-lead { max-width: none; }
 
   .sa-grid { grid-template-columns: 1fr; }
   .sa-photo::before { padding-top: 92%; }
   .sa-timeline { grid-template-columns: repeat(2, 1fr); }
 
+  .us-extra-grid { grid-template-columns: 1fr; }
+
   .ok-grid { grid-template-columns: 1fr; }
   .ok-photo { max-width: 480px; }
-  .ok-photo video { min-height: 0; height: auto; aspect-ratio: 4 / 5; }
 
   .ct-grid { grid-template-columns: 1fr; }
   .footer-in { grid-template-columns: 1fr; gap: 22px; }
@@ -711,9 +747,12 @@ body.menu-open { overflow: hidden; }
   .hero-stats { gap: 20px; }
   .hero-stats dd { max-width: 120px; }
   /* На телефоне витраж — одна видео-панель + две подложки по краям */
-  .hero-panels { grid-template-columns: 1fr 1.35fr 1fr; gap: 8px; max-width: none; }
-  .hp-1, .hp-3 { transform: none; opacity: .75; }
-  .hp-2 { transform: none; }
+  .hero-panels { max-width: none; }
+  .hp { width: 33%; }
+  .hp-1, .hp-3 { transform: none; opacity: .8; }
+  .hp-1 { margin-right: -6%; }
+  .hp-3 { margin-left: -6%; }
+  .hp-2 { width: 46%; transform: none; }
 
   .marquee-track span { font-size: 17px; }
   .marquee-track { gap: 22px; }
