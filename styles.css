@@ -208,7 +208,7 @@ body.menu-open { overflow: hidden; }
     radial-gradient(30% 30% at 70% 12%, rgba(124, 92, 246, .12), transparent 70%);
 }
 /* Соты потолочного света — фирменный мотив из фото клиента */
-.hero-hex, .okras-hex, .contact-hex {
+.hero-hex, .plenka-hex, .okras-hex, .contact-hex {
   position: absolute; inset: 0; pointer-events: none; opacity: .5;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='97' viewBox='0 0 56 97'%3E%3Cpath d='M28 0 56 16v32L28 64 0 48V16Z M28 64 56 80v32H0V80Z' fill='none' stroke='rgba(167,139,250,0.07)' stroke-width='1'/%3E%3C/svg%3E");
   background-size: 56px 97px;
@@ -405,11 +405,71 @@ body.menu-open { overflow: hidden; }
 .sa-timeline strong { display: block; font-family: var(--f-disp); font-weight: 700; font-size: 16px; margin-bottom: 6px; }
 .sa-timeline p { color: var(--dim); font-size: 13.5px; line-height: 1.55; }
 
+/* ═══════════ ПЛЁНКА — ГЛАВНОЕ НАПРАВЛЕНИЕ ═══════════
+   Витрина, а не прайс: фото на всю карточку, текст поверх градиента.
+   Намеренно отличается от карточек услуг (фото сверху, текст под ним) —
+   так плёнка читается как главный блок, а не как ещё один ряд цен. */
+.plenka { padding: clamp(70px, 10vw, 120px) 0; position: relative; overflow: hidden; }
+.plenka-hex { opacity: .4; -webkit-mask-image: radial-gradient(65% 60% at 75% 25%, #000 10%, transparent 78%); mask-image: radial-gradient(65% 60% at 75% 25%, #000 10%, transparent 78%); }
+
+.pl-grid {
+  position: relative; z-index: 1;
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(12px, 1.5vw, 20px);
+  margin-top: clamp(26px, 3.4vw, 44px);
+}
+.pl-card {
+  position: relative; overflow: hidden; isolation: isolate;
+  border-radius: var(--radius); border: 1px solid var(--line);
+  aspect-ratio: 3 / 4; display: flex; align-items: flex-end;
+  transition: transform .4s, border-color .4s, box-shadow .4s;
+}
+.pl-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(167, 139, 250, .5);
+  box-shadow: 0 24px 52px rgba(0, 0, 0, .5);
+}
+.pl-card img {
+  position: absolute; inset: 0; z-index: -2;
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform .8s cubic-bezier(.3, .8, .3, 1);
+}
+.pl-card:hover img { transform: scale(1.07); }
+/* Затемнение снизу — под текст; вверху остаётся чистое фото */
+.pl-card::before {
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  background: linear-gradient(to top, rgba(9, 6, 18, .94) 12%, rgba(9, 6, 18, .66) 44%, rgba(9, 6, 18, .08) 78%);
+}
+/* Неоновая полоса растёт снизу при наведении */
+.pl-card::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 3px;
+  background: var(--neon-grad); transform: scaleX(0); transform-origin: left;
+  transition: transform .5s cubic-bezier(.3, .8, .3, 1);
+}
+.pl-card:hover::after { transform: scaleX(1); }
+
+.pl-body { padding: 20px 20px 22px; display: flex; flex-direction: column; gap: 7px; }
+.pl-num {
+  font-family: var(--f-disp); font-weight: 800; font-size: 12.5px; letter-spacing: .16em;
+  background: var(--neon-grad); -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.pl-body h3 {
+  font-family: var(--f-disp); font-weight: 700;
+  font-size: clamp(17px, 1.75vw, 22px); line-height: 1.2;
+}
+.pl-body p { color: var(--mut); font-size: 14px; line-height: 1.5; }
+
+.pl-cta {
+  display: flex; align-items: center; flex-wrap: wrap; gap: 14px 22px;
+  margin-top: clamp(24px, 3vw, 38px);
+}
+.pl-note { color: var(--dim); font-size: 14px; }
+
 /* ═══════════ УСЛУГИ ═══════════ */
 .uslugi { padding: clamp(70px, 10vw, 120px) 0; background: var(--bg-2); position: relative; }
 
 .us-grid {
-  display: grid; grid-template-columns: repeat(3, 1fr);
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: clamp(14px, 1.8vw, 24px);
 }
 .us-card {
@@ -437,16 +497,6 @@ body.menu-open { overflow: hidden; }
 .us-card:hover figure::after { transform: translateX(130%); transition: transform .9s ease; }
 
 .us-big { grid-row: span 2; }
-/* Фирменная услуга — широкая карточка на всю ширину: фото слева, текст справа */
-.us-okras {
-  grid-column: 1 / -1;
-  flex-direction: row; align-items: stretch;
-  outline: 1.5px solid rgba(167, 139, 250, .5); outline-offset: -1.5px;
-}
-.us-okras figure { aspect-ratio: auto; width: 38%; flex: none; }
-.us-okras .us-body { justify-content: center; gap: 10px; padding: clamp(22px, 3vw, 40px); }
-.us-okras h3 { font-size: clamp(20px, 2.2vw, 28px); }
-.us-okras p { font-size: 15px; max-width: 560px; }
 
 .us-body { padding: 20px 22px 22px; display: flex; flex-direction: column; gap: 8px; flex: none; }
 .us-body h3 { font-family: var(--f-disp); font-weight: 700; font-size: clamp(17px, 1.7vw, 21px); line-height: 1.25; }
@@ -464,8 +514,8 @@ body.menu-open { overflow: hidden; }
 }
 .us-go:hover { color: #fff; }
 
-/* Дополнительные услуги — компактная строка без фото.
-   Рекламу на них не даём, поэтому они намеренно тише основных карточек. */
+/* Всё, что не плёнка — компактная строка без фото: намеренно тише
+   карточек оклейки. Окрас в этой строке выделен рамкой (он в рекламе). */
 .us-extra { margin-top: clamp(20px, 2.6vw, 32px); }
 .us-extra-h {
   font-family: var(--f-disp); font-weight: 700; font-size: 12.5px;
@@ -473,7 +523,7 @@ body.menu-open { overflow: hidden; }
   margin-bottom: 14px;
 }
 .us-extra-grid {
-  display: grid; grid-template-columns: repeat(3, 1fr);
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: clamp(14px, 1.8vw, 24px);
 }
 .ux-card {
@@ -484,6 +534,8 @@ body.menu-open { overflow: hidden; }
   transition: transform .35s, border-color .35s;
 }
 .ux-card:hover { transform: translateY(-4px); border-color: rgba(167, 139, 250, .45); }
+/* Окрас — единственная услуга вне плёнки, на которую идёт реклама */
+.ux-lead { border-color: rgba(167, 139, 250, .45); background: rgba(167, 139, 250, .07); }
 .ux-ico {
   display: flex; align-items: center; justify-content: center;
   width: 40px; height: 40px; margin-bottom: 4px;
@@ -493,7 +545,10 @@ body.menu-open { overflow: hidden; }
 .ux-ico svg { width: 21px; height: 21px; }
 .ux-card h3 { font-family: var(--f-disp); font-weight: 700; font-size: clamp(15.5px, 1.5vw, 18px); line-height: 1.3; }
 .ux-card p { color: var(--dim); font-size: 13.5px; line-height: 1.55; }
-.ux-card .us-foot { margin-top: auto; padding-top: 12px; }
+.ux-card { min-width: 0; }
+/* Цена — nowrap; в казахской версии «сұраныс бойынша» + «есептеу →» не влезают
+   в четверть строки, поэтому подвал карточки переносится. */
+.ux-card .us-foot { margin-top: auto; padding-top: 12px; flex-wrap: wrap; row-gap: 6px; }
 
 /* ═══════════ ОКРАС ПОД ТОЛЩИНОМЕР ═══════════ */
 .okras { padding: clamp(70px, 10vw, 130px) 0; position: relative; overflow: hidden; }
@@ -704,7 +759,9 @@ body.menu-open { overflow: hidden; }
 /* ═══════════ АДАПТИВ ═══════════ */
 
 @media (max-width: 1200px) {
-  .us-grid { grid-template-columns: repeat(2, 1fr); }
+  .us-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .pl-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .us-extra-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 /* Порог меню = порог бургера = 1080px (считан по казахским подписям) */
@@ -727,7 +784,6 @@ body.menu-open { overflow: hidden; }
   .sa-photo::before { padding-top: 92%; }
   .sa-timeline { grid-template-columns: repeat(2, 1fr); }
 
-  .us-extra-grid { grid-template-columns: 1fr; }
 
   .ok-grid { grid-template-columns: 1fr; }
   .ok-photo { max-width: 480px; }
@@ -763,8 +819,13 @@ body.menu-open { overflow: hidden; }
 
   .us-grid { grid-template-columns: 1fr; }
   .us-big figure { min-height: 0; aspect-ratio: 4 / 3; }
-  .us-okras { flex-direction: column; }
-  .us-okras figure { width: 100%; aspect-ratio: 4 / 3; }
+  .us-extra-grid { grid-template-columns: 1fr; }
+
+  /* Плёнка на телефоне остаётся в две колонки — четыре высокие карточки
+     подряд превратили бы блок в бесконечную ленту. */
+  .pl-card { aspect-ratio: 4 / 5; }
+  .pl-body { padding: 14px 14px 16px; }
+  .pl-body p { font-size: 13px; }
 
   .ok-points { grid-template-columns: 1fr; }
 
