@@ -446,24 +446,32 @@ body.menu-open { overflow: hidden; }
   display: flex; flex-direction: column; gap: 0;
 }
 .floor { display: flex; align-items: center; gap: 18px; padding: 18px 0; }
+/* Номера этажей — в одинаковых плашках: «0» и «−1» разной ширины,
+   и без общего бокса «−1» визуально тяжелее нуля вдвое. */
 .floor-num {
+  flex: none;
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 88px; height: 70px; border-radius: 14px;
+  border: 1px solid var(--line); background: rgba(255, 255, 255, .03);
   font-family: var(--f-disp); font-weight: 900;
-  font-size: clamp(44px, 5vw, 64px); line-height: 1; min-width: 86px; text-align: center;
-  color: transparent; -webkit-text-stroke: 1.5px rgba(179, 169, 201, .5);
+  font-size: clamp(30px, 3.2vw, 38px); line-height: 1; letter-spacing: -.02em;
+  color: var(--mut);
 }
 .floor-m1 .floor-num {
-  -webkit-text-stroke: 0;
-  background: var(--neon-grad);
-  -webkit-background-clip: text; background-clip: text; color: transparent;
-  filter: drop-shadow(0 0 18px rgba(140, 120, 250, .45));
+  border-color: rgba(167, 139, 250, .45);
+  background: rgba(167, 139, 250, .12);
+  color: #c9b8ff;
+  box-shadow: 0 0 24px rgba(140, 120, 250, .28), inset 0 0 18px rgba(140, 120, 250, .15);
 }
 .floor-txt { display: flex; flex-direction: column; gap: 3px; }
 .floor-txt strong { font-family: var(--f-disp); font-weight: 700; font-size: clamp(17px, 1.8vw, 21px); }
 .floor-txt span { color: var(--dim); font-size: 14px; }
 
 /* Шахта «лифта» между этажами */
+/* Шахта тянется на всю свободную высоту карточки — «−1» садится вниз,
+   и в блоке не остаётся пустого поля между этажами и цитатами. */
 .floor-shaft {
-  position: relative; height: 56px; margin-left: 43px;
+  position: relative; flex: 1 1 auto; min-height: 56px; margin-left: 44px;
   border-left: 2px dashed rgba(167, 139, 250, .35);
 }
 .floor-cab {
@@ -924,8 +932,9 @@ body.menu-open { overflow: hidden; }
   .marquee-track span { font-size: 17px; }
   .marquee-track { gap: 22px; }
 
-  .floor-num { min-width: 62px; font-size: 40px; }
-  .floor-shaft { margin-left: 31px; }
+  .floor-num { width: 66px; height: 56px; font-size: 27px; border-radius: 12px; }
+  .floor-shaft { margin-left: 33px; }
+  .floor { gap: 14px; padding: 15px 0; }
   .sa-timeline { grid-template-columns: 1fr; }
 
   .us-grid { grid-template-columns: 1fr; }
