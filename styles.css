@@ -320,6 +320,117 @@ body.menu-open { overflow: hidden; }
 .marquee-track i { color: var(--neon-a); font-style: normal; font-size: 16px; align-self: center; }
 @keyframes marquee { to { transform: translateX(-50%); } }
 
+/* ═══════════ ДВА ОСНОВНЫХ НАПРАВЛЕНИЯ (сразу под героем) ═══════════
+   Две крупные карточки-двери: фото на всю плашку, текст поверх градиента.
+   Подача намеренно тяжелее карточек прайса — это первое, что видит клиент. */
+.naprav { padding: clamp(52px, 8vw, 96px) 0 clamp(10px, 2vw, 24px); position: relative; }
+
+.np-grid {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(16px, 2.2vw, 26px); margin-top: clamp(22px, 3vw, 34px);
+}
+
+.np-card {
+  position: relative; display: flex; flex-direction: column; isolation: isolate;
+  min-height: clamp(340px, 42vw, 500px);
+  border-radius: calc(var(--radius) + 6px); overflow: hidden;
+  border: 1px solid var(--line);
+  box-shadow: 0 22px 60px rgba(0, 0, 0, .45);
+  transition: transform .5s cubic-bezier(.2, .7, .3, 1), border-color .4s, box-shadow .5s;
+}
+.np-card img {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; object-position: center 42%;
+  transform: scale(1.02); transition: transform 1s cubic-bezier(.2, .7, .3, 1);
+}
+/* Затемнение: снизу почти в фон секции, сверху почти прозрачно */
+.np-card::before {
+  content: ""; position: absolute; inset: 0; z-index: 1;
+  background:
+    linear-gradient(to top, rgba(11, 7, 20, .96) 8%, rgba(11, 7, 20, .78) 34%, rgba(11, 7, 20, .18) 68%, rgba(11, 7, 20, .35) 100%),
+    radial-gradient(80% 60% at 20% 100%, rgba(124, 92, 246, .3), transparent 70%);
+}
+.np-card-2::before { background-image:
+    linear-gradient(to top, rgba(11, 7, 20, .96) 8%, rgba(11, 7, 20, .78) 34%, rgba(11, 7, 20, .18) 68%, rgba(11, 7, 20, .35) 100%),
+    radial-gradient(80% 60% at 20% 100%, rgba(56, 189, 248, .28), transparent 70%); }
+/* Неоновая линия, которая прочерчивается по низу при наведении */
+.np-card::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 3px; z-index: 3;
+  background: var(--neon-grad); transform: scaleX(0); transform-origin: left;
+  transition: transform .6s cubic-bezier(.2, .7, .3, 1);
+}
+.np-card:hover, .np-card:focus-visible { transform: translateY(-6px); border-color: rgba(167, 139, 250, .45); box-shadow: 0 30px 70px rgba(0, 0, 0, .55); }
+.np-card:hover img, .np-card:focus-visible img { transform: scale(1.09); }
+.np-card:hover::after, .np-card:focus-visible::after { transform: scaleX(1); }
+
+/* Блик, скользящий по карточке при наведении */
+.np-shine {
+  position: absolute; inset: -40%; z-index: 2; pointer-events: none;
+  background: linear-gradient(115deg, transparent 43%, rgba(213, 200, 255, .18) 50%, transparent 57%);
+  transform: translateX(-120%); transition: transform 0s;
+}
+.np-card:hover .np-shine { transform: translateX(120%); transition: transform 1.1s ease-in-out; }
+
+.np-in {
+  position: relative; z-index: 3; margin-top: auto;
+  display: flex; flex-direction: column; align-items: flex-start; gap: 10px;
+  padding: clamp(22px, 2.6vw, 34px);
+}
+/* Крупный номер направления — над текстовой плашкой, в поле фотографии */
+.np-num {
+  position: absolute; bottom: 100%; right: clamp(22px, 2.6vw, 34px);
+  margin-bottom: 6px;
+  font-family: var(--f-disp); font-weight: 900; font-size: clamp(56px, 7vw, 96px);
+  line-height: 1; color: transparent; -webkit-text-stroke: 1px rgba(242, 239, 250, .26);
+}
+.np-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 6px 13px; border-radius: 999px;
+  background: rgba(167, 139, 250, .16); border: 1px solid rgba(167, 139, 250, .4);
+  font-family: var(--f-disp); font-weight: 600; font-size: 12px;
+  letter-spacing: .12em; text-transform: uppercase; color: #d9cdff;
+}
+.np-badge-live { background: rgba(56, 189, 248, .14); border-color: rgba(56, 189, 248, .42); color: #c2ecff; }
+.np-pulse {
+  width: 8px; height: 8px; border-radius: 50%; background: #38bdf8; flex: none;
+  box-shadow: 0 0 0 0 rgba(56, 189, 248, .7); animation: nppulse 2.1s ease-out infinite;
+}
+@keyframes nppulse {
+  0% { box-shadow: 0 0 0 0 rgba(56, 189, 248, .6); }
+  70% { box-shadow: 0 0 0 12px rgba(56, 189, 248, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0); }
+}
+.np-t {
+  font-family: var(--f-disp); font-weight: 900;
+  font-size: clamp(25px, 2.9vw, 40px); line-height: 1.05; letter-spacing: -.01em;
+  margin-top: 2px;
+}
+.np-d { color: var(--mut); font-size: clamp(14px, 1.2vw, 16px); line-height: 1.5; }
+.np-foot {
+  display: flex; align-items: center; flex-wrap: wrap; gap: 10px 18px;
+  margin-top: 8px; padding-top: 14px; width: 100%;
+  border-top: 1px solid rgba(242, 239, 250, .12);
+}
+.np-price {
+  font-family: var(--f-disp); font-weight: 800; font-size: clamp(17px, 1.8vw, 22px);
+  background: var(--neon-grad); -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.np-go {
+  margin-left: auto; color: var(--txt); font-size: 14px; font-weight: 600;
+  transition: color .3s, transform .3s;
+}
+.np-card:hover .np-go { color: var(--neon-b); transform: translateX(4px); }
+
+@media (max-width: 860px) {
+  .np-grid { grid-template-columns: minmax(0, 1fr); }
+  .np-card { min-height: 320px; }
+  .np-num { font-size: 62px; }
+  .np-go { margin-left: 0; }
+}
+@media (max-width: 420px) {
+  .np-card { min-height: 290px; }
+}
+
 /* ═══════════ СЕКЦИЯ «САУРАН» ═══════════ */
 .sauran { padding: clamp(70px, 11vw, 130px) 0 clamp(60px, 8vw, 100px); position: relative; }
 
