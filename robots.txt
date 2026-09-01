@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://songokura.github.io/bestshine/sitemap.xml
+Sitemap: https://bestshine.kz/sitemap.xml
