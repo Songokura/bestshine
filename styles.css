@@ -954,6 +954,48 @@ body.menu-open { overflow: hidden; }
   .ct-btns .btn { flex: 1 1 44%; padding: 14px 10px; }
 }
 
+/* ═══════════ ПЛАВАЮЩАЯ КНОПКА WHATSAPP ═══════════
+   Видна всегда, на любом скролле и на всех ширинах.
+   z-index 66: выше контента, ниже шапки (70) и оверлея «Спасибо» (80).
+   При открытом меню прячется, чтобы не висеть поверх пунктов. */
+.wa-fab {
+  position: fixed; right: clamp(16px, 3vw, 28px); bottom: clamp(16px, 3vw, 28px);
+  z-index: 66;
+  display: inline-flex; align-items: center; gap: 10px;
+  height: 58px; padding: 0 22px 0 18px;
+  border-radius: 999px;
+  background: var(--neon-grad); color: #0c0817;
+  font-family: var(--f-disp); font-weight: 700; font-size: 14.5px; letter-spacing: .01em;
+  box-shadow: 0 10px 30px rgba(124, 108, 255, .45), 0 0 0 1px rgba(255, 255, 255, .14) inset;
+  transition: transform .25s, box-shadow .25s, opacity .25s, visibility .25s;
+}
+.wa-fab:hover { transform: translateY(-3px); box-shadow: 0 16px 40px rgba(124, 108, 255, .6), 0 0 0 1px rgba(255, 255, 255, .2) inset; }
+.wa-fab:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+.wa-fab-ico { width: 26px; height: 26px; flex: 0 0 auto; position: relative; z-index: 2; }
+.wa-fab-txt { position: relative; z-index: 2; white-space: nowrap; }
+
+/* Пульсирующее кольцо — подсказка «сюда можно нажать» */
+.wa-fab-ring {
+  position: absolute; inset: 0; border-radius: inherit;
+  border: 2px solid rgba(167, 139, 250, .75);
+  animation: waPulse 2.6s ease-out infinite;
+  pointer-events: none;
+}
+@keyframes waPulse {
+  0%   { transform: scale(1);    opacity: .8; }
+  70%  { transform: scale(1.16); opacity: 0; }
+  100% { transform: scale(1.16); opacity: 0; }
+}
+
+body.menu-open .wa-fab { opacity: 0; visibility: hidden; }
+
+@media (max-width: 640px) {
+  /* На телефоне — компактный круг, чтобы не закрывать контент */
+  .wa-fab { height: 56px; width: 56px; padding: 0; justify-content: center; }
+  .wa-fab-txt { display: none; }
+  .wa-fab-ico { width: 28px; height: 28px; }
+}
+
 /* ═══════════ ДОСТУПНОСТЬ: reduced motion ═══════════ */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
@@ -962,5 +1004,6 @@ body.menu-open { overflow: hidden; }
   .reveal, .reveal-img { opacity: 1; transform: none; clip-path: none; transition: none; }
   .gauge-needle { transition: none; }
   .gauge-ok { transition: none; }
+  .wa-fab-ring { animation: none; opacity: .5; }
   * { animation-duration: .01ms !important; }
 }

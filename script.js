@@ -16,6 +16,7 @@
       'nav.sauran': 'Студия', 'nav.plenka': 'Оклейка', 'nav.okras': 'Покраска',
       'nav.uslugi': 'Цены', 'nav.raboty': 'Работы', 'nav.contact': 'Контакты',
       'hdr.wa': 'WhatsApp',
+      'fab.wa': 'WhatsApp', 'fab.aria': 'Написать в WhatsApp',
       'cta.wa': 'Написать в WhatsApp', 'cta.prices': 'Услуги и цены',
       'hero.overline': 'Астана · ул. Алматы 3/1 · детейлинг-студия под ТРЦ «Сауран»',
       'hero.h1': 'Оклейка авто плёнкой и покраска за 3 часа',
@@ -141,6 +142,7 @@
       'nav.sauran': 'Студия', 'nav.plenka': 'Қаптау', 'nav.okras': 'Бояу',
       'nav.uslugi': 'Бағалар', 'nav.raboty': 'Жұмыстар', 'nav.contact': 'Байланыс',
       'hdr.wa': 'WhatsApp',
+      'fab.wa': 'WhatsApp', 'fab.aria': 'WhatsApp арқылы жазу',
       'cta.wa': 'WhatsApp арқылы жазу', 'cta.prices': 'Қызметтер мен бағалар',
       'hero.overline': 'Астана · Алматы көшесі, 3/1 · «Сауран» СОО астындағы детейлинг-студия',
       'hero.h1': 'Көлікті үлдірмен қаптау және 3 сағатта бояу',
@@ -281,6 +283,11 @@
       if (val == null) return;
       if (val.indexOf('<') !== -1) el.innerHTML = val;
       else el.textContent = val;
+    });
+    // aria-label
+    document.querySelectorAll('[data-i18n-aria]').forEach(function (el) {
+      var val = dict[el.getAttribute('data-i18n-aria')];
+      if (val != null) el.setAttribute('aria-label', val);
     });
     // Плейсхолдеры
     document.querySelectorAll('[data-i18n-ph]').forEach(function (el) {
