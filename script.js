@@ -110,6 +110,11 @@
       'ra.lead': 'Mercedes-Maybach, BMW M, Lexus LX, Land Cruiser, GMC - премиум-седаны и внедорожники Астаны выходят от нас под плёнкой.',
       'ra.v1': 'Перелив плёнки', 'ra.coupe': 'Купе в работе',
       'ra.ig': 'больше — в Instagram →',
+      'fab.gis': '2ГИС', 'fab.gisAria': 'Маршрут в 2ГИС',
+      'rv.overline': 'Отзывы', 'rv.h2': 'Что о нас пишут в 2ГИС',
+      'rv.lead': 'Оценка студии - 5,0 из 5 по 28 отзывам. Ниже - цитаты с карточки 2ГИС без единой правки.',
+      'rv.cnt': '28 отзывов в 2ГИС',
+      'rv.all': 'все отзывы в 2ГИС →',
       'ct.overline': 'Контакты', 'ct.h2': 'Оставьте машину нам',
       'ct.lead': 'Напишите в WhatsApp — пришлём расчёт за 10 минут. Или заезжайте: левый берег, ул. Алматы 3/1, под ТРЦ «Сауран».',
       'ct.addr': 'Адрес',
@@ -236,6 +241,11 @@
       'ra.lead': 'Mercedes-Maybach, BMW M, Lexus LX, Land Cruiser, GMC - Астананың премиум седандары мен жол талғамайтын көліктері бізден үлдір астында шығады.',
       'ra.v1': 'Үлдір құбылуы', 'ra.coupe': 'Жұмыстағы купе',
       'ra.ig': 'көбірек — Instagram парақшамызда →',
+      'fab.gis': '2ГИС', 'fab.gisAria': '2ГИС-те маршрут',
+      'rv.overline': 'Пікірлер', 'rv.h2': '2ГИС-те біз туралы не жазады',
+      'rv.lead': 'Студияның бағасы - 28 пікір бойынша 5-тен 5,0. Төменде - 2ГИС парақшасындағы пікірлер, бір де бір түзетусіз.',
+      'rv.cnt': '2ГИС-те 28 пікір',
+      'rv.all': '2ГИС-тегі барлық пікірлер →',
       'ct.overline': 'Байланыс', 'ct.h2': 'Көлікті бізге қалдырыңыз',
       'ct.lead': 'WhatsApp арқылы жазыңыз — есепті 10 минутта жібереміз. Немесе тікелей келіңіз: сол жағалау, Алматы көшесі 3/1, «Сауран» СОО астында.',
       'ct.addr': 'Мекенжай',
@@ -377,18 +387,31 @@
   document.querySelectorAll('.ra-item video').forEach(function (v) { vio.observe(v); });
 
   /* ── Галерея: кнопки и drag-прокрутка ────────────────────── */
-  var strip = document.getElementById('raStrip');
-  if (strip) {
-    var step = function () {
-      var item = strip.querySelector('.ra-item');
-      return item ? (item.offsetWidth + 20) * 2 : 600;
-    };
-    document.getElementById('raPrev').addEventListener('click', function () {
-      strip.scrollBy({ left: -step(), behavior: 'smooth' });
-    });
-    document.getElementById('raNext').addEventListener('click', function () {
-      strip.scrollBy({ left: step(), behavior: 'smooth' });
-    });
+  /* Общая механика горизонтальной ленты: стрелки, гашение на краях,
+     перетаскивание мышью. Используется галереей работ и лентой отзывов. */
+  function initStrip(stripId, prevId, nextId, itemSel, perStep) {
+    var strip = document.getElementById(stripId);
+    var prev = document.getElementById(prevId);
+    var next = document.getElementById(nextId);
+    if (!strip || !prev || !next) return;
+
+    function step() {
+      var item = strip.querySelector(itemSel);
+      var gap = parseFloat(getComputedStyle(strip).columnGap || getComputedStyle(strip).gap) || 20;
+      return item ? (item.offsetWidth + gap) * perStep : 600;
+    }
+    function sync() {
+      var max = strip.scrollWidth - strip.clientWidth;
+      var fits = max <= 2;                       // всё влезло — стрелки не нужны
+      prev.hidden = next.hidden = fits;
+      prev.disabled = strip.scrollLeft <= 2;
+      next.disabled = strip.scrollLeft >= max - 2;
+    }
+    prev.addEventListener('click', function () { strip.scrollBy({ left: -step(), behavior: 'smooth' }); });
+    next.addEventListener('click', function () { strip.scrollBy({ left: step(), behavior: 'smooth' }); });
+    strip.addEventListener('scroll', sync, { passive: true });
+    window.addEventListener('resize', sync);
+    sync();
 
     // Перетаскивание мышью (на тач-экранах скролл нативный)
     var isDown = false, startX = 0, startLeft = 0, moved = false;
@@ -412,6 +435,9 @@
       if (moved) { e.preventDefault(); e.stopPropagation(); moved = false; }
     }, true);
   }
+
+  initStrip('raStrip', 'raPrev', 'raNext', '.ra-item', 2);
+  initStrip('rvStrip', 'rvPrev', 'rvNext', '.rv-card', 1);
 
   /* ── Конверсии Google Ads (AW-18437509987) ───────────────── */
   function fireConv(sendTo) {
