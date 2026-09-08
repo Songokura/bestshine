@@ -413,6 +413,19 @@
     }, true);
   }
 
+  /* ── Конверсии Google Ads (AW-18437509987) ───────────────── */
+  function fireConv(sendTo) {
+    if (typeof gtag !== 'function') return;
+    gtag('event', 'conversion', {
+      'send_to': 'AW-18437509987/' + sendTo,
+      'value': 1.0,
+      'currency': 'USD'
+    });
+  }
+  var CONV_TEL  = '1Ql9CIuSi_EcEOOm2NdE'; // Интерактивные номера телефонов
+  var CONV_FORM = '5GYtCIm2gPEcEOOm2NdE'; // Отправка формы для потенциальных клиентов
+  var CONV_WA   = 'i-T0CIC_gPEcEOOm2NdE'; // Контакт (переход в WhatsApp)
+
   /* ── Форма → WhatsApp (без бэкенда) ──────────────────────── */
   var form = document.getElementById('waForm');
   var thanks = document.getElementById('thanks');
@@ -444,15 +457,15 @@
     if (msg) lines.push(dict['wa.msg'] + ': ' + msg);
 
     var url = WA + '?text=' + encodeURIComponent(lines.join('\n'));
+    fireConv(CONV_FORM);
     window.open(url, '_blank', 'noopener');
     openThanks();
   }
   form.addEventListener('submit', onFormSubmit);
 
   /* ── Делегированные клики tel: / WhatsApp ────────────────── */
-  // Чистые хуки — сюда Opus повесит gtag-конверсии (звонок / переход в WhatsApp)
-  function onTelClick(link) { /* заглушка для gtag('event', ...) */ }
-  function onWaClick(link) { /* заглушка для gtag('event', ...) */ }
+  function onTelClick(link) { fireConv(CONV_TEL); }
+  function onWaClick(link) { fireConv(CONV_WA); }
 
   document.addEventListener('click', function (e) {
     var a = e.target.closest && e.target.closest('a');

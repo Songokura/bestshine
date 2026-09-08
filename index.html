@@ -35,7 +35,30 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Tektur:wght@500;600;700;800;900&family=Onest:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="styles.css?v=20260901-2">
+  <!-- Google tag (gtag.js) - Google Ads AW-18437509987 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18437509987"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'AW-18437509987');
+
+    /* Конверсия «Интерактивные номера телефонов» с переходом по ссылке */
+    function gtag_report_conversion(url) {
+      var callback = function () {
+        if (typeof(url) != 'undefined') { window.location = url; }
+      };
+      gtag('event', 'conversion', {
+        'send_to': 'AW-18437509987/1Ql9CIuSi_EcEOOm2NdE',
+        'value': 1.0,
+        'currency': 'USD',
+        'event_callback': callback
+      });
+      return false;
+    }
+  </script>
+
+  <link rel="stylesheet" href="styles.css?v=20260908-1">
 
   <!-- JSON-LD: локальный бизнес -->
   <script type="application/ld+json">
@@ -623,6 +646,6 @@
   </div>
 </div>
 
-<script src="script.js?v=20260901-2" defer></script>
+<script src="script.js?v=20260908-1" defer></script>
 </body>
 </html>
