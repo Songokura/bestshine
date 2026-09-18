@@ -55,7 +55,7 @@
     }
   </script>
 
-  <link rel="stylesheet" href="styles.css?v=20260915-1">
+  <link rel="stylesheet" href="styles.css?v=20260918-1">
 
   <!-- JSON-LD: локальный бизнес -->
   <script type="application/ld+json">
@@ -426,13 +426,13 @@
             <a class="us-go" href="#okras" data-i18n="us.more">подробнее ↓</a>
           </div>
         </article>
-        <article class="ux-card reveal" id="pdr">
+        <article class="ux-card reveal" id="pdr-card">
           <span class="ux-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 7.5h5"/><path d="M16.5 7.5h5"/><path d="M7.5 7.5c0 3.7 2 5.8 4.5 5.8s4.5-2.1 4.5-5.8"/><path d="M12 21.5v-5.7M9.3 18.5 12 15.8l2.7 2.7"/></svg></span>
           <h3 data-i18n="us.e1t">ПДР — вмятины без покраски</h3>
           <p data-i18n="us.e1d">Выправляем вмятину изнутри — родная краска остаётся нетронутой.</p>
           <div class="us-foot">
             <span class="price" data-i18n="us.req">по запросу</span>
-            <a class="us-go" href="https://wa.me/77071062613?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%98%D0%BD%D1%82%D0%B5%D1%80%D0%B5%D1%81%D1%83%D0%B5%D1%82%20%D0%9F%D0%94%D0%A0%20%E2%80%94%20%D0%B2%D1%8B%D0%BF%D1%80%D0%B0%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D0%B5%20%D0%B2%D0%BC%D1%8F%D1%82%D0%B8%D0%BD%20%D0%B1%D0%B5%D0%B7%20%D0%BF%D0%BE%D0%BA%D1%80%D0%B0%D1%81%D0%BA%D0%B8" target="_blank" rel="noopener" aria-label="Написать в WhatsApp про ПДР" data-i18n="us.go">рассчитать →</a>
+            <a class="us-go" href="#pdr" data-i18n="us.more">подробнее ↓</a>
           </div>
         </article>
         <article class="ux-card reveal" id="polirovka">
@@ -498,6 +498,41 @@
         <video src="assets/loop-panel.mp4" poster="assets/loop-panel-poster.webp" autoplay muted loop playsinline width="576" height="1024" aria-label="Перелив покрытия на крыле автомобиля"></video>
         <figcaption data-i18n="ok.cap">свет ложится ровно — значит, слой ровный</figcaption>
       </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ ВМЯТИНЫ БЕЗ ПОКРАСКИ (PDR) ══════════════ -->
+<!-- Реклама: группа «Вмятины без покраски» ведёт сюда (#pdr). Видео - реальная работа студии,
+     кадр обрезан так, чтобы номер машины не попадал в кадр. -->
+<section class="okras pdr" id="pdr">
+  <div class="okras-hex" aria-hidden="true"></div>
+  <div class="wrap">
+    <p class="overline reveal"><span class="ol-dot" aria-hidden="true"></span><span data-i18n="pd.overline">Вмятины без покраски</span></p>
+    <h2 class="h2 reveal" data-i18n="pd.h2">Удаление вмятин без покраски</h2>
+    <p class="lead reveal" data-i18n="pd.lead">Выдавливаем металл изнутри специальным инструментом - без шпаклёвки, грунта и краски. Заводское покрытие остаётся на месте, и машина не теряет в цене.</p>
+
+    <div class="ok-grid pd-grid">
+      <figure class="ok-photo pd-photo reveal-img">
+        <video data-src="assets/loop-pdr.mp4" poster="assets/loop-pdr-poster.webp" muted loop playsinline preload="none" width="576" height="720" aria-label="Вмятина на двери багажника до и после ремонта без покраски"></video>
+        <figcaption class="pd-cap">
+          <span class="pd-ba" aria-hidden="true"><b class="pd-before" data-i18n="pd.before">до</b><b class="pd-after" data-i18n="pd.after">после</b></span>
+          <span data-i18n="pd.cap">реальная работа студии</span>
+        </figcaption>
+      </figure>
+
+      <div class="ok-left">
+        <ul class="ok-points">
+          <li class="reveal"><strong data-i18n="pd.p1t">Родная краска</strong><span data-i18n="pd.p1d">Не шлифуем и не красим - заводской слой остаётся на месте.</span></li>
+          <li class="reveal"><strong data-i18n="pd.p2t">Толщиномер чист</strong><span data-i18n="pd.p2d">Слой не меняется: при продаже ремонт не найти.</span></li>
+          <li class="reveal"><strong data-i18n="pd.p3t">Быстрее окраса</strong><span data-i18n="pd.p3d">Нет шпаклёвки, грунта и сушки - меньше работы и меньше счёт.</span></li>
+          <li class="reveal"><strong data-i18n="pd.p4t">Цена по фото</strong><span data-i18n="pd.p4d">Пришлите снимок вмятины в WhatsApp - назовём стоимость.</span></li>
+        </ul>
+        <p class="pd-note reveal" data-i18n="pd.note">Град, парковка, дверь соседа - берём вмятины, где краска не треснула.</p>
+        <div class="ok-cta reveal">
+          <a href="https://wa.me/77071062613?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%9D%D1%83%D0%B6%D0%BD%D0%BE%20%D1%83%D0%B1%D1%80%D0%B0%D1%82%D1%8C%20%D0%B2%D0%BC%D1%8F%D1%82%D0%B8%D0%BD%D1%83%20%D0%B1%D0%B5%D0%B7%20%D0%BF%D0%BE%D0%BA%D1%80%D0%B0%D1%81%D0%BA%D0%B8" class="btn btn-neon" target="_blank" rel="noopener" data-i18n="pd.cta">Отправить фото вмятины</a>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -781,6 +816,6 @@
   </div>
 </div>
 
-<script src="script.js?v=20260915-1" defer></script>
+<script src="script.js?v=20260918-1" defer></script>
 </body>
 </html>

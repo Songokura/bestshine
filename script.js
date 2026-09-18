@@ -106,6 +106,16 @@
       'ok.p4d': 'Точную цену считаем по фото повреждения в WhatsApp.',
       'ok.cta': 'Отправить фото повреждения',
       'ok.cap': 'свет ложится ровно — значит, слой ровный',
+      'pd.overline': 'Вмятины без покраски',
+      'pd.h2': 'Удаление вмятин без покраски',
+      'pd.lead': 'Выдавливаем металл изнутри специальным инструментом - без шпаклёвки, грунта и краски. Заводское покрытие остаётся на месте, и машина не теряет в цене.',
+      'pd.before': 'до', 'pd.after': 'после', 'pd.cap': 'реальная работа студии',
+      'pd.p1t': 'Родная краска', 'pd.p1d': 'Не шлифуем и не красим - заводской слой остаётся на месте.',
+      'pd.p2t': 'Толщиномер чист', 'pd.p2d': 'Слой не меняется: при продаже ремонт не найти.',
+      'pd.p3t': 'Быстрее окраса', 'pd.p3d': 'Нет шпаклёвки, грунта и сушки - меньше работы и меньше счёт.',
+      'pd.p4t': 'Цена по фото', 'pd.p4d': 'Пришлите снимок вмятины в WhatsApp - назовём стоимость.',
+      'pd.note': 'Град, парковка, дверь соседа - берём вмятины, где краска не треснула.',
+      'pd.cta': 'Отправить фото вмятины',
       'ra.overline': 'Галерея', 'ra.h2': 'Наши работы',
       'ra.lead': 'Mercedes-Maybach, BMW M, Lexus LX, Land Cruiser, GMC - премиум-седаны и внедорожники Астаны выходят от нас под плёнкой.',
       'ra.v1': 'Перелив плёнки', 'ra.coupe': 'Купе в работе',
@@ -267,6 +277,25 @@
     });
   }, { threshold: 0.25 });
   document.querySelectorAll('.ra-item video').forEach(function (v) { vio.observe(v); });
+
+  /* ── Вмятины без покраски: видео грузится у блока, подпись «до/после» идёт за кадром ── */
+  var pdv = document.querySelector('.pd-photo video');
+  if (pdv) {
+    var pdFig = pdv.closest('.pd-photo');
+    var PD_AFTER = 2.7; // с этой секунды ролика вмятины уже нет
+    pdv.addEventListener('timeupdate', function () {
+      pdFig.classList.toggle('is-after', pdv.currentTime >= PD_AFTER);
+    });
+    var pio = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          if (!pdv.getAttribute('src')) pdv.setAttribute('src', pdv.getAttribute('data-src'));
+          pdv.play().catch(function () { /* автоплей запрещён - остаётся постер */ });
+        } else if (pdv.getAttribute('src')) { pdv.pause(); }
+      });
+    }, { threshold: 0.3 });
+    pio.observe(pdv);
+  }
 
   /* ── Галерея: кнопки и drag-прокрутка ────────────────────── */
   /* Общая механика горизонтальной ленты: стрелки, гашение на краях,

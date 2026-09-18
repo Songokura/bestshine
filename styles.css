@@ -745,6 +745,26 @@ body.menu-open { overflow: hidden; }
   background: rgba(11, 7, 20, .55); padding: 7px 12px; border-radius: 8px;
 }
 
+/* ═══════════ ВМЯТИНЫ БЕЗ ПОКРАСКИ: зеркало блока окраса ═══════════ */
+/* Раскладка и карточки - от .okras; здесь только зеркало (видео слева), свой фон и подпись «до/после». */
+.pdr { border-top: 1px solid var(--line); }
+.pdr .okras-hex { -webkit-mask-image: radial-gradient(60% 55% at 78% 45%, #000 10%, transparent 75%); mask-image: radial-gradient(60% 55% at 78% 45%, #000 10%, transparent 75%); }
+.pd-grid { grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); align-items: center; }
+.pd-note { margin-top: 18px; color: var(--dim); font-size: 14px; line-height: 1.55; }
+.pd-cap { display: flex; align-items: center; gap: 10px; }
+.pd-ba {
+  position: relative; display: inline-grid; grid-template-columns: 1fr 1fr;
+  padding: 3px; border-radius: 8px; background: rgba(255, 255, 255, .1);
+  font-family: var(--f-disp); font-size: 12px; letter-spacing: .06em; text-transform: uppercase;
+}
+.pd-ba b { position: relative; z-index: 1; padding: 3px 9px; text-align: center; font-weight: 700; color: rgba(242, 239, 250, .6); transition: color .3s; }
+.pd-ba::before {
+  content: ""; position: absolute; top: 3px; bottom: 3px; left: 3px; width: calc(50% - 3px);
+  border-radius: 6px; background: #fff; transition: transform .35s cubic-bezier(.3, .9, .3, 1);
+}
+.pd-photo.is-after .pd-ba::before { transform: translateX(100%); }
+.pd-photo:not(.is-after) .pd-before, .pd-photo.is-after .pd-after { color: var(--ink); }
+
 /* ═══════════ РАБОТЫ: горизонтальная лента ═══════════ */
 .raboty { padding: clamp(70px, 10vw, 120px) 0 clamp(60px, 8vw, 90px); background: var(--bg-2); }
 .raboty .lead { margin-bottom: clamp(24px, 3vw, 40px); }
@@ -986,6 +1006,7 @@ body.menu-open { overflow: hidden; }
 
   .ok-grid { grid-template-columns: 1fr; }
   .ok-photo { max-width: 480px; }
+  .pd-grid { grid-template-columns: 1fr; }
 
   .ct-grid { grid-template-columns: 1fr; }
   .footer-in { grid-template-columns: 1fr; gap: 22px; }
